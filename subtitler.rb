@@ -1,5 +1,7 @@
 require 'optparse'
 require 'subtitler'
+require 'rbconfig'
+
 options = {}
 OptionParser.new do |opts|
   opts.banner = 'Usage: bundle exec ruby subtitle.rb [options]'
@@ -12,6 +14,10 @@ OptionParser.new do |opts|
 
   opts.on("-v", "--video-id VIDEOID", "cloudinary video id") do |f|
     options[:video_id] = f
+  end
+
+  opts.on("-p", "--play", "play video if present.  If absent, display URL") do |f|
+    options[:play] = f
   end
 
   opts.on("-h", "--help", "display this help and exit") do |f|
@@ -35,4 +41,20 @@ unless options[:video_id]
   puts "Error: no video id specified"
 end
 
-puts Subtitler.addSubtitlesToVideo options[:cloud_name], options[:video_id], file
+def open url
+  case RbConfig::CONFIG['host_os']
+  when /darwin/
+    `open #{url}`
+  when /linux/
+    `google-chrome #{url}`
+  else
+    puts "Error: Non a supported operating system"
+    exit(1)
+  end
+end
+url = Subtitler.addSubtitlesToVideo options[:cloud_name], options[:video_id], file
+if options[:play]
+  open url
+else
+  puts url
+end
