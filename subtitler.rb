@@ -8,6 +8,7 @@ OptionParser.new do |opts|
   opts.on("-f", "--file FILE", "json subtitles file") do |f|
     options[:file] = f
   end
+  
   opts.on("-n", "--name NAME", "cloudinary user name") do |f|
     options[:cloud_name] = f
   end
@@ -52,7 +53,13 @@ def open url
     exit(1)
   end
 end
-url = Subtitler.addSubtitlesToVideo options[:cloud_name], options[:video_id], file
+
+begin
+  url = Subtitler.addSubtitlesToVideo options[:cloud_name], options[:video_id], file
+rescue Subtitler::ParseException
+  puts "There was a formatting error with your JSON.  Please try again."
+end
+
 if options[:play]
   open url
 else
