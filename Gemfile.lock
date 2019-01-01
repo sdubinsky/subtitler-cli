@@ -1,0 +1,17 @@
+PATH
+  remote: /home/deus-ex/code/subtitler
+  specs:
+    subtitler (0.1.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  subtitler!
+
+BUNDLED WITH
+   1.17.1
