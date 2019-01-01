@@ -5,7 +5,7 @@ require 'rbconfig'
 options = {}
 OptionParser.new do |opts|
   opts.banner = 'Usage: bundle exec ruby subtitle.rb [options]'
-  opts.on("-f", "--file FILE", "json file") do |f|
+  opts.on("-f", "--file FILE", "json subtitles file") do |f|
     options[:file] = f
   end
   opts.on("-n", "--name NAME", "cloudinary user name") do |f|
